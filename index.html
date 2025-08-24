@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday Lyvia 🎈</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      font-family: "Segoe UI", sans-serif;
+      overflow: hidden;
+    }
+    .balloon {
+      width: 100px;
+      height: 130px;
+      background: radial-gradient(circle at 30% 30%, #fff, #ff4e50);
+      border-radius: 50% 50% 50% 50%;
+      position: absolute;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+      padding: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+    .balloon:hover { transform: scale(1.1); }
+    .string {
+      width: 2px;
+      height: 60px;
+      background: #555;
+      position: absolute;
+      top: 130px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0); }
+    }
+    .float { animation: float 3s ease-in-out infinite; }
+
+    .message {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      font-size: 18px;
+      color: #fff;
+      font-weight: 500;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+    .message.show { opacity: 1; }
+
+    .overlay {
+      position: fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 2rem;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.5s ease;
+    }
+    .overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .overlay h1 { font-size: 3rem; margin-bottom: 20px; }
+    .signature { margin-top: 20px; font-size: 1.2rem; font-style: italic; }
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: gold;
+      top: -10px;
+      animation: fall 3s linear infinite;
+    }
+    @keyframes fall {
+      to { transform: translateY(110vh) rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div id="game"></div>
+  <div class="message" id="msg"></div>
+
+  <div class="overlay" id="overlay">
+    <h1>The Day My Favourite Soul Arrived On Earth</h1>
+    <p>The Day The World Was Blessed With Your Light</p>
+    <p>Happy Level Up Day, My Love 💖</p>
+    <div class="signature">— From JoJoi, to Lyvia 🌹</div>
+  </div>
+
+  <script>
+    const messages = [
+      "Even in silence, I thank the universe for the comfort of your hand in mine, Lyvia.",
+      "You are the gentle proof that love can be both fierce and tender.",
+      "Your presence turns ordinary days into quiet miracles, Lyvia.",
+      "Each laugh we share feels like a gift wrapped in eternity.",
+      "With you, time slows, and the world softens into something beautiful.",
+      "You are my safe place, my spark, my sweetest adventure.",
+      "No poem or song could ever capture what my heart feels for you, Lyvia.",
+      "With every breath, I find another reason to be grateful that you are mine."
+    ];
+
+    const game = document.getElementById("game");
+    const msg = document.getElementById("msg");
+    const overlay = document.getElementById("overlay");
+    let popped = 0;
+
+    messages.forEach((text, i) => {
+      const balloon = document.createElement("div");
+      balloon.className = "balloon float";
+      balloon.style.left = Math.random() * 80 + "vw";
+      balloon.style.top = Math.random() * 60 + "vh";
+      balloon.innerHTML = `<div>${i+1}</div><div class="string"></div>`;
+
+      balloon.onclick = () => {
+        balloon.remove();
+        popped++;
+        msg.textContent = text;
+        msg.classList.add("show");
+        setTimeout(()=>msg.classList.remove("show"), 3000);
+
+        if(popped === messages.length){
+          overlay.classList.add("show");
+          launchConfetti();
+        }
+      };
+      game.appendChild(balloon);
+    });
+
+    function launchConfetti(){
+      for(let i=0;i<100;i++){
+        const conf = document.createElement("div");
+        conf.className="confetti";
+        conf.style.left=Math.random()*100+"vw";
+        conf.style.background=`hsl(${Math.random()*360},100%,50%)`;
+        conf.style.animationDuration=(Math.random()*3+2)+"s";
+        conf.style.opacity=Math.random();
+        document.body.appendChild(conf);
+        setTimeout(()=>conf.remove(),4000);
+      }
+    }
+  </script>
+</body>
+</html>
